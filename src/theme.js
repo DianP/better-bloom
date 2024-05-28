@@ -102,19 +102,6 @@
         }
         console.log("Zoom level adjusted.");
 
-        styleSheet.innerText += `
-        /* Transparent Windows Controls */
-        body::after {
-          content: "";
-          position: absolute;
-          right: 0;
-          z-index: 999;
-          backdrop-filter: brightness(2.12);
-          width: calc(135px / var(--windows-control-zoom, 1));
-          height: calc(48px / var(--windows-control-zoom, 1));
-        }
-        `;
-
         document.head.appendChild(styleSheet);
       });
   }
