@@ -181,6 +181,26 @@
 `;
   document.head.appendChild(playButtonStyle);
 
+  // Transparent Windows Controls for Windows OS
+  if (
+    Spicetify.Platform.PlatformData.os_name === "windows" &&
+    Spicetify.Config.color_scheme !== "light"
+  ) {
+    const windowsControlStyle = document.createElement("style");
+    windowsControlStyle.innerHTML = `body::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      z-index: 999;
+      backdrop-filter: brightness(2.12);
+      width: calc(135px / var(--windows-control-zoom, 1));
+      height: calc(48px / var(--windows-control-zoom, 1));
+    }
+    `;
+
+    document.head.appendChild(windowsControlStyle);
+  }
+
   console.log("Better Bloom is running");
 
   function applyStyles() {
@@ -261,13 +281,6 @@
 
   // Set Window Control Zoom Variable
   function handleTransparentWindows() {
-    Spicetify.Platform.PlayerAPI._prefs
-      .get({ key: "app.browser.zoom-level" })
-      .then((value) => {
-        const zoom = Number(value.entries["app.browser.zoom-level"].number);
-        console.log(zoom);
-      });
-
     document.documentElement.style.setProperty(
       "--windows-control-zoom",
       window.outerWidth / window.innerWidth || 1
